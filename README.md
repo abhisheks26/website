@@ -1,20 +1,20 @@
-# Personal Portfolio & Blog
+# Abhishek Sarkate — Portfolio & Blog
 
-A minimal, dark-themed portfolio and blog built with **Next.js**, **Tailwind CSS**, and **Framer Motion**. Content is authored in Markdown and deployed via Vercel.
+Personal portfolio and blog built with **Next.js 16**, **Tailwind CSS v4**, and **Framer Motion**. Media assets are hosted on Supabase Storage. Deployed via Vercel.
 
 ---
 
 ## Tech Stack
 
-| Layer      | Technology                                 |
-| ---------- | ------------------------------------------ |
-| Framework  | Next.js 16 (App Router)                    |
-| Styling    | Tailwind CSS v4, `@tailwindcss/typography` |
-| Animations | Framer Motion                              |
-| Content    | Markdown (`gray-matter` + `remark`)        |
-| Icons      | Font Awesome 6.5 (CDN)                     |
-| Font       | JetBrains Mono (Google Fonts)              |
-| Deployment | Vercel                                     |
+| Layer      | Technology                                  |
+| ---------- | ------------------------------------------- |
+| Framework  | Next.js 16 (App Router)                     |
+| Styling    | Tailwind CSS v4, `@tailwindcss/typography`  |
+| Animations | Framer Motion                               |
+| Content    | Markdown (`gray-matter` + `remark`)         |
+| Media      | Supabase Storage (public bucket)            |
+| Icons      | Font Awesome 6.5 (CDN)                      |
+| Deployment | Vercel (auto-deploy on push to `main`)      |
 
 ---
 
@@ -24,53 +24,44 @@ A minimal, dark-themed portfolio and blog built with **Next.js**, **Tailwind CSS
 ├── app/                        # Next.js App Router pages
 │   ├── layout.js               # Root layout (metadata, fonts, theme)
 │   ├── template.js             # Framer Motion page-transition wrapper
-│   ├── globals.css             # Design tokens, theme variables, utilities
+│   ├── globals.css             # Design tokens, theme variables
 │   ├── page.js                 # Home page
 │   ├── blog/
-│   │   ├── page.js             # Blog listing (search, filter, view toggle)
+│   │   ├── page.js             # Blog listing
 │   │   └── [slug]/page.js      # Blog post detail
-│   ├── projects/
-│   │   ├── page.js             # Projects listing (search, filter)
-│   │   └── [slug]/page.js      # Project detail
-│   └── resume/
-│       └── page.js             # Resume (data‑driven)
+│   └── projects/
+│       └── page.js             # Projects page
 │
-├── components/
-│   ├── layout/                 # Structural / app-shell components
-│   │   ├── Navbar.js           # Floating pill navigation bar
-│   │   ├── Footer.js           # Site footer with social links
-│   │   ├── Section.js          # Scroll-animated section wrapper
-│   │   └── ThemeToggle.js      # Dark / light mode toggle
-│   ├── home/
-│   │   └── Hero.js             # Landing hero (avatar, bio, CTAs)
-│   ├── blog/
-│   │   ├── BlogCard.js         # Blog post preview card (grid / list)
-│   │   └── BlogClient.js       # Blog listing with search & filters
-│   ├── projects/
-│   │   ├── ProjectCard.js      # Project card with hover-reveal cover
-│   │   └── ProjectsClient.js   # Projects listing with search & filter
-│   └── ui/                     # Shared presentational components
-│       ├── FilterDropdown.js   # Animated dropdown selector
-│       └── SocialLinks.js      # Reusable social icon row
+├── portfolio/                  # Portfolio UI components
+│   ├── Navbar.js
+│   ├── Footer.js
+│   ├── home/                   # Home page sections (bento grid)
+│   │   ├── HeroBento.js
+│   │   ├── WorkBento.js        # YouTube embeds (podcasts, shorts, long-form)
+│   │   ├── BottomBento.js      # Expertise + testimonials
+│   │   └── BentoCard.js
+│   └── projects/
+│       └── ProjectsClient.js   # Projects listing with category filter
 │
-├── content/                    # Markdown content
-│   ├── blog/                   # Blog posts (.md)
-│   │   └── _template.md        # Blog post template
-│   └── projects/               # Project write-ups (.md)
-│       └── _template.md        # Project template
+├── blog/
+│   └── BlogClient.js
 │
-├── lib/                        # Shared utilities & data
-│   ├── api.js                  # Markdown parsing & data helpers
-│   ├── constants.js            # Site metadata, nav links, social links
-│   └── resume-data.js          # Resume content (data-driven)
+├── shared/                     # Shared components & utilities
+│   ├── Section.js
+│   ├── ThemeToggle.js
+│   ├── SocialLinks.js
+│   ├── hooks/
+│   │   └── useFilteredList.js
+│   └── lib/
+│       ├── constants.js        # Site metadata, MEDIA_BASE, nav/social links
+│       └── api.js              # Markdown parsing helpers
 │
-├── public/assets/images/       # Static images
-│   ├── avatar.png              # Profile photo
-│   ├── favicon.svg             # Site favicon
-│   ├── blog/                   # Blog cover images
-│   └── projects/               # Project cover images
+├── blog/content/               # Markdown blog posts
+│   └── _template.md
 │
-└── next.config.mjs             # Next.js configuration
+└── public/                     # Local media (gitignored — upload to Supabase)
+    ├── shared/
+    └── testimonials/
 ```
 
 ---
@@ -79,117 +70,100 @@ A minimal, dark-themed portfolio and blog built with **Next.js**, **Tailwind CSS
 
 ### Prerequisites
 
-- **Node.js** ≥ 18
-- **npm** (or pnpm / yarn)
+- Node.js ≥ 18
+- npm
 
-### Install & Run
+### Install & run
 
 ```bash
-# Clone the repository
-git clone https://github.com/sameetvipat/website.git
+git clone https://github.com/abhisheks26/website.git
 cd website
-
-# Install dependencies
 npm install
-
-# Start the dev server (http://localhost:3000)
-npm run dev
+npm run dev       # http://localhost:3000
 ```
 
-### Build for Production
+### Environment variables
+
+Create `.env.local`:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://onzqolqndrzscbpthugr.supabase.co
+```
+
+---
+
+## Media Management
+
+Media files (images, videos) are stored in **Supabase Storage** — not in the git repo. The `public/shared/` and `public/testimonials/` directories are gitignored.
+
+### Media URL pattern
+
+All media is served from:
+```
+https://onzqolqndrzscbpthugr.supabase.co/storage/v1/object/public/media/{path}
+```
+
+This base URL is exported as `MEDIA_BASE` from `shared/lib/constants.js`.
+
+### Upload media
 
 ```bash
-npm run build
+npm run upload-media
 ```
 
-### Deploy to Vercel
+Uploads everything in `public/shared/` and `public/testimonials/` to the `media` bucket. Safe to re-run — overwrites existing files.
 
-1. Push the repo to GitHub.
-2. Go to [vercel.com](https://vercel.com) → **New Project** → import the repository.
-3. Vercel auto-detects Next.js — click **Deploy**.
-4. Every push to `main` triggers an automatic production deploy. Pull requests get unique preview URLs.
+### First-time Supabase CLI setup
 
-To add a custom domain, go to **Project Settings → Domains** in the Vercel dashboard.
+```bash
+./node_modules/.bin/supabase login
+./node_modules/.bin/supabase link --project-ref onzqolqndrzscbpthugr
+```
 
----
+### File size limit
 
-## Adding Content
+Supabase free tier: **50MB max per file**. Compress large videos before uploading:
 
-All content lives in the `content/` directory as Markdown files. Templates with all required frontmatter fields are provided — files prefixed with `_` (like `_template.md`) are automatically excluded from listings.
-
-### Creating a Blog Post
-
-1. Copy the template:
-   ```bash
-   cp content/blog/_template.md content/blog/your-post-slug.md
-   ```
-2. Add a cover image to `public/assets/images/blog/your-post-slug.png`.
-3. Fill in the frontmatter and write the post body in Markdown.
-4. Preview with `npm run dev`, then push to deploy.
-
-#### Blog Frontmatter
-
-| Field      | Required | Description                            |
-| ---------- | -------- | -------------------------------------- |
-| `title`    | Yes      | Post title                             |
-| `date`     | Yes      | Publication date (`Mon DD, YYYY`)      |
-| `category` | Yes      | Category for the dropdown filter       |
-| `readTime` | Yes      | Reading time (e.g. `3 min read`)       |
-| `image`    | No       | Cover image path relative to `public/` |
-| `excerpt`  | Yes      | One-line summary for the listing card  |
-| `tags`     | No       | Array of tags for tag-based search     |
-
-### Creating a Project
-
-1. Copy the template:
-   ```bash
-   cp content/projects/_template.md content/projects/your-project-slug.md
-   ```
-2. Add a cover image to `public/assets/images/projects/your-project-slug.png`.
-3. Fill in the frontmatter and write the project body in Markdown.
-4. Preview with `npm run dev`, then push to deploy.
-
-#### Project Frontmatter
-
-| Field         | Required | Description                                 |
-| ------------- | -------- | ------------------------------------------- |
-| `title`       | Yes      | Project name                                |
-| `category`    | Yes      | Category for the dropdown filter            |
-| `featured`    | No       | Set `true` to show on the home page (max 3) |
-| `techStack`   | Yes      | Array of technologies for badges            |
-| `description` | Yes      | One-line summary for the project card       |
-| `cover`       | No       | Cover image path relative to `public/`      |
-| `links.code`  | No       | Source code URL                             |
-| `links.demo`  | No       | Live demo URL                               |
+```bash
+ffmpeg -i input.mp4 -vcodec libx264 -crf 28 -preset fast -acodec aac -b:a 128k output.mp4
+```
 
 ---
 
-## Customization
+## Deployment
 
-### Site Metadata & Social Links
+Vercel auto-deploys on every push to `main`.
 
-All site-wide constants live in `lib/constants.js` — name, email, nav links, and social links. Update that single file to change them everywhere.
+**Required env var on Vercel:**
+```
+NEXT_PUBLIC_SUPABASE_URL = https://onzqolqndrzscbpthugr.supabase.co
+```
 
-### Theming
-
-Colors are defined as CSS custom properties in `app/globals.css`. The site supports **dark** (default) and **light** modes, toggled via the sun/moon icon in the navbar.
-
-### Resume
-
-Resume content is data-driven via `lib/resume-data.js`. Edit that file to update objectives, education, projects, skills, and profile sections — no UI code changes needed.
+Add via: `npx vercel env add NEXT_PUBLIC_SUPABASE_URL`
 
 ---
 
 ## Scripts
 
-| Command         | Description                     |
-| --------------- | ------------------------------- |
-| `npm run dev`   | Start dev server with Turbopack |
-| `npm run build` | Production build                |
-| `npm run lint`  | Run ESLint                      |
+| Command                  | Description                               |
+| ------------------------ | ----------------------------------------- |
+| `npm run dev`            | Start dev server with Turbopack           |
+| `npm run build`          | Production build                          |
+| `npm run lint`           | Run ESLint                                |
+| `npm run upload-media`   | Upload media files to Supabase Storage    |
 
 ---
 
-## License
+## Adding Content
 
-This project is for personal use. Feel free to reference the structure or code for your own portfolio.
+### Blog posts
+
+Add `.md` files to `blog/content/`. Files prefixed with `_` are excluded from listings.
+
+### Projects / Podcasts
+
+Edit the arrays in:
+- `portfolio/projects/ProjectsClient.js` — projects page
+- `portfolio/home/WorkBento.js` — home page work section
+
+YouTube videos use `videoId` (just the ID, no full URL). Add `type: "youtube"` for projects page entries.
