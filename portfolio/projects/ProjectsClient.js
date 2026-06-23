@@ -8,6 +8,8 @@ const CATEGORIES = ["All", "Podcast", "Short-Form", "Long-Form"];
 
 const ALL_PROJECTS = [
     // ── Podcasts ──
+    { category: "Podcast", title: "Why a VFX Company is Producing India's Most Expensive Film Ramayana | TCP Ep#35", author: "The Content Playbook Podcast", videoId: "5mRRDJSsMlE", type: "youtube" },
+    { category: "Podcast", title: "Putting Each Other On the Spot (Things Got Uncomfortable) | TCP #34", author: "The Content Playbook Podcast", videoId: "wW6bi-Dx3iQ", type: "youtube" },
     { category: "Podcast", title: "You should leave India ASAP ft. Ravi Handa @desifirepodcast", author: "Kachori Capitalists Podcast", videoId: "moPSxspMENo", type: "youtube" },
     { category: "Podcast", title: "Best vs Worst YouTube Jobs To Start In 2026 | TCP #33", author: "The Content Playbook Podcast", videoId: "zLA84HToqb0", type: "youtube" },
     { category: "Podcast", title: "How He Earns ₹500,000/Month Shooting YouTube Videos ft. @SurajBoddu | TCP #16", author: "The Content Playbook Podcast", videoId: "MVO65md_ND8", type: "youtube" },

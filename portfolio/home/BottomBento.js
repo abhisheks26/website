@@ -23,6 +23,7 @@ export default function BottomBento() {
             role: "Podcast",
             videoUrl: `${MEDIA_BASE}/testimonials/TCP_Ep18_Solo_v0.2.mp4`,
             channelLink: "https://www.youtube.com/@TheContentPlaybookPod",
+            youtubeUrl: "https://www.youtube.com/watch?v=5mRRDJSsMlE",
             avatarUrl: `${MEDIA_BASE}/testimonials/tcp_avatar.jpg`,
             quote: "The real game-changer has been Sarkate. I don't just see him as an editor, but as a visionary content partner who instinctively understands our goals.",
         },
@@ -32,6 +33,7 @@ export default function BottomBento() {
             role: "Podcast",
             videoUrl: `${MEDIA_BASE}/testimonials/Value.mp4`,
             channelLink: "https://www.youtube.com/@TheContentPlaybookPod",
+            youtubeUrl: "https://www.youtube.com/watch?v=wW6bi-Dx3iQ",
             avatarUrl: `${MEDIA_BASE}/testimonials/tcp_avatar.jpg`,
             quote: "Sarkate's value as our lead editor is in his ability to find the right clips and stitch them together perfectly. From music selection to optimizing for YouTube retention, he is vital.",
         },
@@ -106,9 +108,19 @@ export default function BottomBento() {
                                             alt={testimonial.author + " avatar"}
                                             className="w-10 h-10 rounded-full object-cover border border-accent-primary"
                                         />
-                                        <p className="text-text-secondary text-[10px] sm:text-xs font-mono tracking-wide font-bold">
-                                            {testimonial.author}
-                                        </p>
+                                        <div className="flex flex-col gap-0.5">
+                                            <p className="text-text-secondary text-[10px] sm:text-xs font-mono tracking-wide font-bold">
+                                                {testimonial.author}
+                                            </p>
+                                            <a
+                                                href={testimonial.youtubeUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-accent-primary text-[10px] sm:text-xs font-mono tracking-wide hover:underline"
+                                            >
+                                                Watch on YouTube ↗
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </BentoCard>
