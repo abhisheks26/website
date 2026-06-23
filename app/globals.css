@@ -1,0 +1,454 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── Tailwind Theme Mapping ─────────────────────────────────── */
+@theme {
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
+
+  --color-primary: var(--bg-primary);
+  --color-secondary: var(--bg-secondary);
+  --color-tertiary: var(--bg-tertiary);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-accent: var(--text-accent);
+
+  --color-accent: var(--accent-primary);
+  --color-accent-hover: var(--accent-secondary);
+  --color-accent-purple: var(--accent-purple);
+
+  --color-border: var(--border-color);
+
+  --font-serif: var(--font-serif), "Playfair Display", serif;
+  --font-mono: var(--font-mono), "Geist Mono", monospace;
+  --font-body: var(--font-mono), "Geist Mono", monospace;
+  --font-sans: var(--font-mono), "Geist Mono", monospace;
+}
+
+/* ── Design Tokens (Dark — default) ─────────────────────────── */
+:root {
+  /* Design Tokens (Playful Dark Theme — Default) */
+  --bg-primary: #050505;
+  /* Deep Dark Black */
+  --bg-secondary: #0f1014;
+  /* Very Dark Gray/Blue tint */
+  --bg-tertiary: #181920;
+  /* Dark Gray */
+
+  --text-primary: #f8fafc;
+  /* Off-White */
+  --text-secondary: #a1a1aa;
+  /* Gray 400 */
+  --text-accent: #ffffff;
+  /* White */
+
+  --accent-primary: #a855f7;
+  /* Bright Purple Accent */
+  --accent-secondary: #c084fc;
+  /* Lighter Purple */
+  --accent-purple: #a855f7;
+  /* Bright Purple Accent */
+
+  --border-color: #27272a;
+  /* Gray 800 */
+
+  --nav-height: 70px;
+  --container-width: 1280px;
+
+  /* ── Global Theme Transition Speed ── */
+  --transition-speed: 0.5s;
+  --transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Light Theme Override ────────────────────────────────────── */
+[data-theme="light"] {
+  /* We maintain a dark, playful theme throughout, so 'light' is basically ignored or styled as a slight variation */
+  --bg-primary: #ffffff;
+  --bg-secondary: #fafafa;
+  --bg-tertiary: #f4f4f5;
+
+  --text-primary: #09090b;
+  --text-secondary: #52525b;
+  --text-accent: #000000;
+
+  --accent-primary: #9333ea;
+  /* Purple */
+  --accent-secondary: #a855f7;
+  /* Light Purple */
+  --accent-purple: #7000df;
+
+  --border-color: #e4e4e7;
+}
+
+/* ── Global Base Styles ──────────────────────────────────────── */
+body {
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  font-family: var(--font-mono);
+  /* Apply theme transition to main background/color */
+  transition: background-color var(--transition-speed) var(--transition-ease),
+    color var(--transition-speed) var(--transition-ease);
+  /* Prevent bg-grid-pattern::before (z-index:-1) from showing through child stacking contexts */
+  isolation: isolate;
+}
+
+/* 
+ * Apply theme transition to ALL elements that might change color.
+ * Using a broad selector is performant enough for this scale and ensures consistency.
+ */
+/* 
+ * Apply theme transition to ALL elements ONLY during theme switch.
+ * This prevents hover effects from being 500ms slow.
+ */
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition-property: color, background-color, border-color, fill, stroke, opacity, box-shadow !important;
+  transition-duration: var(--transition-speed) !important;
+  transition-timing-function: var(--transition-ease) !important;
+}
+
+
+
+/* ── Typography ──────────────────────────────────────────────── */
+p,
+li,
+blockquote,
+.prose,
+.prose * {
+  line-height: 1.75;
+}
+
+/* ── Component Utilities ────────────────────────────────────── */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold transition-all border border-transparent cursor-pointer uppercase;
+    isolation: isolate;
+  }
+
+  .btn-primary {
+    background-color: var(--accent-primary);
+    color: var(--bg-primary);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--accent-secondary);
+    @apply -translate-y-px;
+  }
+
+  .btn-outline {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+  }
+
+  .btn-secondary {
+    background: var(--bg-primary);
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--accent-primary);
+    color: var(--bg-primary);
+    @apply -translate-y-px;
+  }
+
+  .container-custom {
+    @apply max-w-[var(--container-width)] mx-auto px-6 w-full;
+  }
+
+
+
+  .nav-link {
+    @apply relative text-sm font-medium transition-colors;
+  }
+
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1rem;
+    grid-auto-rows: minmax(80px, auto);
+  }
+
+  @media (max-width: 1024px) {
+    .bento-grid {
+      grid-template-columns: repeat(8, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .bento-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+    }
+
+    .bento-grid > * {
+      grid-column: span 4 !important;
+      grid-row: auto !important;
+    }
+  }
+
+  .bento-item {
+    @apply rounded-2xl overflow-hidden transition-all duration-300;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    isolation: isolate;
+  }
+
+  .bento-item:hover {
+    border-color: color-mix(in srgb, var(--accent-primary) 40%, transparent);
+    box-shadow: 0 0 30px -5px color-mix(in srgb, var(--accent-primary) 15%, transparent);
+    transform: translateY(-2px);
+  }
+
+  .bento-item--accent {
+    background: linear-gradient(135deg,
+      color-mix(in srgb, var(--accent-primary) 8%, var(--bg-secondary)),
+      var(--bg-secondary));
+    border-color: color-mix(in srgb, var(--accent-primary) 20%, var(--border-color));
+  }
+
+  .bento-item--glass {
+    background: var(--bg-secondary);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Hide scrollbar for horizontal scroll containers */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .full-width-bg {
+    background-color: var(--bg-primary);
+    background-image:
+      radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.03) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(255, 255, 255, 0.03) 0px, transparent 50%),
+      linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231e293b' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .bg-grid-pattern::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  [data-theme="light"] .bg-grid-pattern::before {
+    opacity: 0.15;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23cbd5e1' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  [data-theme="light"] .full-width-bg {
+    background-image:
+      radial-gradient(at 0% 0%, rgba(0, 0, 0, 0.02) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(0, 0, 0, 0.02) 0px, transparent 50%),
+      linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23cbd5e1' fill-opacity='0.3'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+}
+
+/* ── Blog Theme (Warm & Colorful) ──────────────────────────── */
+
+/* Hide global grid pattern so blog can stack it properly over paper grain */
+body:has([data-blog])::before {
+  display: none !important;
+}
+
+/* Hide root nav/footer when blog is active */
+body:has([data-blog]) .root-navbar,
+body:has([data-blog]) .root-footer {
+  display: none !important;
+}
+
+/* Remove root layout padding since blog has its own nav */
+body:has([data-blog]) main {
+  padding-top: 0;
+}
+
+/* Blog body background (follows theme) */
+body:has([data-blog]) {
+  background: #FDFBF7;
+}
+
+.dark body:has([data-blog]),
+body.dark:has([data-blog]) {
+  background: #1A130E;
+}
+
+/* Blog color variable overrides */
+[data-blog] {
+  --bg-primary: #FDFBF7;
+  --bg-secondary: #F8F3E9;
+  --bg-tertiary: #F2EBDC;
+
+  --text-primary: #1A130E;
+  --text-secondary: #3D2E22;
+  --text-accent: #000000;
+
+  --accent-primary: #C0604A;
+  --accent-secondary: #D98A5A;
+  --accent-purple: #C0604A;
+
+  --border-color: #D98A5A;
+
+  --blog-accent-green: #8B9B78;
+
+  /* Direct Tailwind color overrides (bypass @theme indirection) */
+  --color-background: #FDFBF7;
+  --color-foreground: #1A130E;
+  --color-primary: #FDFBF7;
+  --color-secondary: #F8F3E9;
+  --color-tertiary: #F2EBDC;
+  --color-text-primary: #1A130E;
+  --color-text-secondary: #3D2E22;
+  --color-text-accent: #000000;
+  --color-accent: #C0604A;
+  --color-accent-hover: #D98A5A;
+  --color-accent-purple: #C0604A;
+  --color-border: #D98A5A;
+
+  /* Clean sans-serif body text instead of monospace */
+  --font-body: var(--font-inter), 'Inter', sans-serif;
+  --font-sans: var(--font-inter), 'Inter', sans-serif;
+  --font-mono: var(--font-inter), 'Inter', sans-serif;
+
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  color: var(--text-primary);
+}
+
+/* Blog dark mode override */
+.dark [data-blog] {
+  --bg-primary: #1F1915;
+  --bg-secondary: #29211C;
+  --bg-tertiary: #3D2E22;
+
+  --text-primary: #FDFBF7;
+  --text-secondary: #F2C57C;
+  --text-accent: #FFFFFF;
+
+  --accent-primary: #C0604A;
+  --accent-secondary: #D98A5A;
+  --accent-purple: #C0604A;
+
+  --border-color: #3D2E22;
+
+  --blog-accent-green: #8B9B78;
+
+  /* Direct Tailwind color overrides */
+  --color-background: #1F1915;
+  --color-foreground: #FDFBF7;
+  --color-primary: #1F1915;
+  --color-secondary: #29211C;
+  --color-tertiary: #3D2E22;
+  --color-text-primary: #FDFBF7;
+  --color-text-secondary: #F2C57C;
+  --color-text-accent: #FFFFFF;
+  --color-accent: #C0604A;
+  --color-accent-hover: #D98A5A;
+  --color-accent-purple: #C0604A;
+  --color-border: #3D2E22;
+}
+
+/* Blog prose overrides for article content */
+[data-blog] .prose {
+  --tw-prose-body: #3D2E22;
+  --tw-prose-headings: #1A130E;
+  --tw-prose-links: #C0604A;
+  --tw-prose-bold: #1A130E;
+  --tw-prose-code: #C0604A;
+  --tw-prose-pre-bg: #E8B96D;
+  --tw-prose-pre-code: #1A130E;
+  --tw-prose-quotes: #3D2E22;
+  --tw-prose-quote-borders: #C0604A;
+  --tw-prose-hr: #D98A5A;
+}
+
+.dark [data-blog] .prose {
+  --tw-prose-body: #FDFBF7;
+  --tw-prose-headings: #F2C57C;
+  --tw-prose-links: #D98A5A;
+  --tw-prose-bold: #FDFBF7;
+  --tw-prose-code: #D98A5A;
+  --tw-prose-pre-bg: #241A14;
+  --tw-prose-pre-code: #FDFBF7;
+  --tw-prose-quotes: #FDFBF7;
+  --tw-prose-quote-borders: #D98A5A;
+  --tw-prose-hr: #3D2E22;
+}
+
+[data-blog] .prose.dark\:prose-invert {
+  --tw-prose-invert-body: #5C4633;
+  --tw-prose-invert-headings: #3D2E22;
+  --tw-prose-invert-links: #C0604A;
+  --tw-prose-invert-bold: #3D2E22;
+  --tw-prose-invert-code: #C0604A;
+}
+
+/* Blog tag pills with sage green */
+[data-blog] .blog-tag {
+  background-color: rgba(139, 155, 120, 0.15);
+  color: #5C6A4F;
+  border-color: rgba(139, 155, 120, 0.3);
+}
+
+[data-blog] .blog-tag:hover {
+  background-color: rgba(139, 155, 120, 0.25);
+  color: #3F4A32;
+  border-color: rgba(139, 155, 120, 0.45);
+}
+
+.dark [data-blog] .blog-tag {
+  background-color: rgba(139, 155, 120, 0.15);
+  color: #8B9B78;
+  border-color: rgba(139, 155, 120, 0.3);
+}
+
+.dark [data-blog] .blog-tag:hover {
+  background-color: rgba(139, 155, 120, 0.25);
+  color: #A3B390;
+  border-color: rgba(139, 155, 120, 0.45);
+}
+
+/* Paper grain texture overlay (Lowest z-index) */
+[data-blog] .blog-grain {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -2;
+  opacity: 0.35;
+}
+
+.dark [data-blog] .blog-grain {
+  opacity: 0.2;
+}
+
+/* Explicit Grid pattern overlay for blog (sits on top of grain) */
+[data-blog] .blog-grid-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+[data-theme="light"] [data-blog] .blog-grid-overlay {
+  opacity: 0.15;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23cbd5e1' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}

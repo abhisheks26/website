@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./*"],
+      "@/lib/*": ["./shared/lib/*"],
+      "@/hooks/*": ["./shared/hooks/*"]
+    }
+  }
+}
