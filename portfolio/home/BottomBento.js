@@ -108,14 +108,6 @@ export default function BottomBento() {
                                             <p className="text-text-secondary text-[10px] sm:text-xs font-mono tracking-wide font-bold">
                                                 {testimonial.author}
                                             </p>
-                                            <a
-                                                href={testimonial.youtubeUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="text-accent-primary text-[10px] sm:text-xs font-mono tracking-wide hover:underline"
-                                            >
-                                                Watch on YouTube ↗
-                                            </a>
                                         </div>
                                     </div>
                                 </div>
