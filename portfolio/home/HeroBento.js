@@ -3,7 +3,7 @@
 import Image from "next/image";
 import SocialLinks from "@/shared/SocialLinks";
 import BentoCard from "./BentoCard";
-import { MEDIA_BASE } from "@/shared/lib/constants";
+import { MEDIA_BASE } from "@/lib/constants";
 
 export default function HeroBento() {
     return (

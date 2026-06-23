@@ -6,30 +6,6 @@ import BentoCard from "@/portfolio/home/BentoCard";
 
 const CATEGORIES = ["All", "Podcast", "Short-Form", "Long-Form"];
 
-const ALL_PROJECTS = [
-    // ── Podcasts ──
-    { category: "Podcast", title: "Why a VFX Company is Producing India's Most Expensive Film Ramayana | TCP Ep#35", author: "The Content Playbook Podcast", videoId: "5mRRDJSsMlE", type: "youtube" },
-    { category: "Podcast", title: "Putting Each Other On the Spot (Things Got Uncomfortable) | TCP #34", author: "The Content Playbook Podcast", videoId: "wW6bi-Dx3iQ", type: "youtube" },
-    { category: "Podcast", title: "You should leave India ASAP ft. Ravi Handa @desifirepodcast", author: "Kachori Capitalists Podcast", videoId: "moPSxspMENo", type: "youtube" },
-    { category: "Podcast", title: "Best vs Worst YouTube Jobs To Start In 2026 | TCP #33", author: "The Content Playbook Podcast", videoId: "zLA84HToqb0", type: "youtube" },
-    { category: "Podcast", title: "How He Earns ₹500,000/Month Shooting YouTube Videos ft. @SurajBoddu | TCP #16", author: "The Content Playbook Podcast", videoId: "MVO65md_ND8", type: "youtube" },
-    { category: "Podcast", title: "This Company Makes CRORES Predicting Blockbusters | TCP #26", author: "The Content Playbook Podcast", videoId: "wKqqJa41g2g", type: "youtube" },
-    { category: "Podcast", title: "How Shark Tank Found HIM on Instagram w/ Sahib Aggarwal | TCP #31", author: "The Content Playbook Podcast", videoId: "0sCb_FuU_Vs", type: "youtube" },
-    { category: "Podcast", title: "Thousands Of Indian Families Have Stopped Sending Kids To School", author: "Kachori Capitalists Podcast", videoId: "iGrDpC7Tx4w", type: "youtube" },
-
-    // ── Long-Form ──
-    { category: "Long-Form", title: "Hero Destini 125 vs Suzuki Access 2025 | Top 125cc Scooter You Can Buy", author: "Point55 Media", videoId: "lKb-13SIlNk", type: "youtube" },
-    { category: "Long-Form", title: "Day in the Life of a SaaS Founder: Meeting Customer IRL", author: "Travel With Vedant", videoId: "PWfF1w_h5EE", type: "youtube" },
-
-    // ── Short-Form ──
-    { category: "Short-Form", title: "Instagram Reel", url: "https://www.instagram.com/p/DEfrR7Myql0/embed", postUrl: "https://www.instagram.com/reel/DEfrR7Myql0/", type: "instagram", account: "@thecontentplaybook_" },
-    { category: "Short-Form", title: "Instagram Reel", url: "https://www.instagram.com/p/DQooRjmgHfN/embed", postUrl: "https://www.instagram.com/reel/DQooRjmgHfN/", type: "instagram", account: "@thecontentplaybook_" },
-    { category: "Short-Form", title: "Karan Johar Revealed This Secret Company", videoId: "sWk0bdQ3Ft0", postUrl: "https://www.youtube.com/shorts/sWk0bdQ3Ft0", type: "youtube-short", account: "The Content Playbook" },
-    { category: "Short-Form", title: "Why Nikhil Kamath can't reach Tier 3 India", videoId: "rQWwPVhSse8", postUrl: "https://www.youtube.com/shorts/rQWwPVhSse8", type: "youtube-short", account: "The Content Playbook" },
-    { category: "Short-Form", title: "Instagram Reel", url: "https://www.instagram.com/p/DMAw-SgvsrD/embed", postUrl: "https://www.instagram.com/reel/DMAw-SgvsrD/", type: "instagram", account: "@thecontentplaybook_" },
-    { category: "Short-Form", title: "Samay Raina Turned the Jokes on Them!", videoId: "pYoKzyQEMQQ", postUrl: "https://www.youtube.com/shorts/pYoKzyQEMQQ", type: "youtube-short", account: "The Content Playbook" },
-];
-
 function ShortFormRow({ items }) {
     return (
         <div className="mb-6">
@@ -41,7 +17,7 @@ function ShortFormRow({ items }) {
             <div className="flex gap-3 md:gap-4 overflow-x-auto pb-4 snap-x snap-mandatory" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
                 {items.map((vid, idx) => (
                     <BentoCard
-                        key={idx}
+                        key={vid.id}
                         delay={idx * 0.06}
                         className="!p-0 relative shrink-0 snap-start"
                         style={{ width: "min(220px, 70vw)", height: "min(390px, 65vh)" }}
@@ -49,8 +25,8 @@ function ShortFormRow({ items }) {
                         <iframe
                             src={
                                 vid.type === "youtube-short"
-                                    ? `https://www.youtube.com/embed/${vid.videoId}`
-                                    : vid.url
+                                    ? `https://www.youtube.com/embed/${vid.video_id}`
+                                    : vid.embed_url
                             }
                             title={vid.title}
                             className="absolute inset-0 w-full h-full border-0"
@@ -78,14 +54,14 @@ function PodcastRow({ items }) {
             <div className="flex gap-3 md:gap-4 overflow-x-auto pb-4 snap-x snap-mandatory" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
                 {items.map((pod, idx) => (
                     <BentoCard
-                        key={pod.videoId}
+                        key={pod.id}
                         delay={idx * 0.06}
                         className="!p-0 flex flex-col shrink-0 snap-start"
                         style={{ width: "min(380px, 85vw)" }}
                     >
                         <div className="relative w-full aspect-video">
                             <iframe
-                                src={`https://www.youtube.com/embed/${pod.videoId}`}
+                                src={`https://www.youtube.com/embed/${pod.video_id}`}
                                 title={pod.title}
                                 className="absolute inset-0 w-full h-full"
                                 frameBorder="0"
@@ -119,7 +95,7 @@ function LongFormRow({ items }) {
             <div className="flex gap-3 md:gap-4 overflow-x-auto pb-4 snap-x snap-mandatory" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
                 {items.map((project, idx) => (
                     <BentoCard
-                        key={project.videoId}
+                        key={project.id}
                         delay={idx * 0.06}
                         variant="accent"
                         className="!p-0 flex flex-col shrink-0 snap-start"
@@ -127,7 +103,7 @@ function LongFormRow({ items }) {
                     >
                         <div className="relative w-full aspect-video">
                             <iframe
-                                src={`https://www.youtube.com/embed/${project.videoId}`}
+                                src={`https://www.youtube.com/embed/${project.video_id}`}
                                 title={project.title}
                                 className="absolute inset-0 w-full h-full"
                                 frameBorder="0"
@@ -150,19 +126,19 @@ function LongFormRow({ items }) {
     );
 }
 
-export default function ProjectsClient() {
+export default function ProjectsClient({ projects = [] }) {
     const [filter, setFilter] = useState("All");
 
-    const podcasts = ALL_PROJECTS.filter(p => p.category === "Podcast");
-    const shortForm = ALL_PROJECTS.filter(p => p.category === "Short-Form");
-    const longForm = ALL_PROJECTS.filter(p => p.category === "Long-Form");
+    const podcasts = projects.filter(p => p.category === "Podcast");
+    const shortForm = projects.filter(p => p.category === "Short-Form");
+    const longForm = projects.filter(p => p.category === "Long-Form");
 
     const showPodcasts = filter === "All" || filter === "Podcast";
     const showShortForm = filter === "All" || filter === "Short-Form";
     const showLongForm = filter === "All" || filter === "Long-Form";
 
     const categoryCounts = {
-        "All": ALL_PROJECTS.length,
+        "All": projects.length,
         "Podcast": podcasts.length,
         "Short-Form": shortForm.length,
         "Long-Form": longForm.length,
@@ -182,7 +158,6 @@ export default function ProjectsClient() {
                             My <span className="text-accent-purple italic">Work</span>
                         </motion.h1>
                     </div>
-
 
                     <motion.p
                         initial={{ opacity: 0, y: 10 }}

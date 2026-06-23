@@ -4,38 +4,16 @@ import { useRef } from "react";
 import BentoCard from "./BentoCard";
 import ScrollButtons from "./ScrollButtons";
 
-export default function WorkBento() {
+export default function WorkBento({ projects = [] }) {
     const reelsRef = useRef(null);
     const podcastsRef = useRef(null);
     const longFormRef = useRef(null);
 
-    const reels = [
-        { embedUrl: "https://www.instagram.com/p/DEfrR7Myql0/embed", id: "DEfrR7Myql0" },
-        { embedUrl: "https://www.instagram.com/p/DQooRjmgHfN/embed", id: "DQooRjmgHfN" },
-        { embedUrl: "https://www.instagram.com/p/DMAw-SgvsrD/embed", id: "DMAw-SgvsrD" },
-    ];
-
-    const shorts = [
-        { title: "Karan Johar Revealed This Secret Company", videoId: "sWk0bdQ3Ft0" },
-        { title: "Why Nikhil Kamath can't reach Tier 3 India", videoId: "rQWwPVhSse8" },
-        { title: "Samay Raina Turned the Jokes on Them!", videoId: "pYoKzyQEMQQ" },
-    ];
-
-    const podcasts = [
-        { title: "Why a VFX Company is Producing India's Most Expensive Film Ramayana | TCP Ep#35", author: "The Content Playbook Podcast", videoId: "5mRRDJSsMlE" },
-        { title: "Putting Each Other On the Spot (Things Got Uncomfortable) | TCP #34", author: "The Content Playbook Podcast", videoId: "wW6bi-Dx3iQ" },
-        { title: "You should leave India ASAP ft. Ravi Handa @desifirepodcast", author: "Kachori Capitalists Podcast", videoId: "moPSxspMENo" },
-        { title: "Best vs Worst YouTube Jobs To Start In 2026 | TCP #33", author: "The Content Playbook Podcast", videoId: "zLA84HToqb0" },
-        { title: "How He Earns ₹500,000/Month Shooting YouTube Videos ft. @SurajBoddu | TCP #16", author: "The Content Playbook Podcast", videoId: "MVO65md_ND8" },
-        { title: "This Company Makes CRORES Predicting Blockbusters | TCP #26", author: "The Content Playbook Podcast", videoId: "wKqqJa41g2g" },
-        { title: "How Shark Tank Found HIM on Instagram w/ Sahib Aggarwal | TCP #31", author: "The Content Playbook Podcast", videoId: "0sCb_FuU_Vs" },
-        { title: "Thousands Of Indian Families Have Stopped Sending Kids To School", author: "Kachori Capitalists Podcast", videoId: "iGrDpC7Tx4w" },
-    ];
-
-    const longForm = [
-        { title: "Hero Destini 125 vs Suzuki Access 2025 | Top 125cc Scooter You Can Buy", channel: "Point55 Media", videoId: "lKb-13SIlNk" },
-        { title: "Day in the Life of a SaaS Founder: Meeting Customer IRL", channel: "Travel With Vedant", videoId: "PWfF1w_h5EE" },
-    ];
+    const home = projects.filter(p => p.show_on_home);
+    const reels = home.filter(p => p.type === "instagram");
+    const shorts = home.filter(p => p.type === "youtube-short");
+    const podcasts = home.filter(p => p.category === "Podcast");
+    const longForm = home.filter(p => p.category === "Long-Form");
 
     return (
         <section id="work" className="w-full px-4 md:px-8">
@@ -63,8 +41,8 @@ export default function WorkBento() {
                                 style={{ width: "min(220px, 70vw)", height: "min(390px, 65vh)" }}
                             >
                                 <iframe
-                                    src={vid.embedUrl}
-                                    title={`Reel ${vid.id}`}
+                                    src={vid.embed_url}
+                                    title={vid.title}
                                     className="absolute inset-0 w-full h-full border-0"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                     allowFullScreen
@@ -75,13 +53,13 @@ export default function WorkBento() {
                         ))}
                         {shorts.map((vid, idx) => (
                             <BentoCard
-                                key={vid.videoId}
+                                key={vid.id}
                                 delay={(reels.length + idx) * 0.06}
                                 className="!p-0 relative shrink-0 snap-start"
                                 style={{ width: "min(220px, 70vw)", height: "min(390px, 65vh)" }}
                             >
                                 <iframe
-                                    src={`https://www.youtube.com/embed/${vid.videoId}`}
+                                    src={`https://www.youtube.com/embed/${vid.video_id}`}
                                     title={vid.title}
                                     className="absolute inset-0 w-full h-full border-0"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -103,14 +81,14 @@ export default function WorkBento() {
                     <div ref={podcastsRef} className="flex gap-3 md:gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
                         {podcasts.map((pod, idx) => (
                             <BentoCard
-                                key={pod.videoId}
+                                key={pod.id}
                                 delay={idx * 0.06}
                                 className="!p-0 flex flex-col shrink-0 snap-start"
                                 style={{ width: "min(380px, 85vw)" }}
                             >
                                 <div className="relative w-full aspect-video">
                                     <iframe
-                                        src={`https://www.youtube.com/embed/${pod.videoId}`}
+                                        src={`https://www.youtube.com/embed/${pod.video_id}`}
                                         title={pod.title}
                                         className="absolute inset-0 w-full h-full"
                                         frameBorder="0"
@@ -141,7 +119,7 @@ export default function WorkBento() {
                     <div ref={longFormRef} className="flex gap-3 md:gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
                         {longForm.map((project, idx) => (
                             <BentoCard
-                                key={project.videoId}
+                                key={project.id}
                                 delay={idx * 0.06}
                                 variant="accent"
                                 className="!p-0 flex flex-col shrink-0 snap-start"
@@ -149,7 +127,7 @@ export default function WorkBento() {
                             >
                                 <div className="relative w-full aspect-video">
                                     <iframe
-                                        src={`https://www.youtube.com/embed/${project.videoId}`}
+                                        src={`https://www.youtube.com/embed/${project.video_id}`}
                                         title={project.title}
                                         className="absolute inset-0 w-full h-full"
                                         frameBorder="0"
@@ -163,7 +141,7 @@ export default function WorkBento() {
                                     <h3 className="font-serif text-sm sm:text-base md:text-lg font-bold text-text-primary line-clamp-2 mb-1" title={project.title}>
                                         {project.title}
                                     </h3>
-                                    <p className="text-text-secondary text-[10px] sm:text-xs font-mono tracking-wide">{project.channel}</p>
+                                    <p className="text-text-secondary text-[10px] sm:text-xs font-mono tracking-wide">{project.author}</p>
                                 </div>
                             </BentoCard>
                         ))}

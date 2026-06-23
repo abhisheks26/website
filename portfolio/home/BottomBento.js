@@ -3,45 +3,43 @@
 import { useRef } from "react";
 import BentoCard from "./BentoCard";
 import ScrollButtons from "./ScrollButtons";
-import { MEDIA_BASE } from "@/shared/lib/constants";
+import { MEDIA_BASE } from "@/lib/constants";
+
+const skills = [
+    { title: "Precision Editing", description: "Knowing exactly where and how to cut to maintain seamless flow.", icon: "✂️" },
+    { title: "Color Grading", description: "Enhancing mood and visual appeal with professional grading.", icon: "🎨" },
+    { title: "Podcasts & Trailers", description: "Multi-cam podcasts and high-impact intro trailers.", icon: "🎙️" },
+    { title: "Short-Form Content", description: "High-retention Shorts and Reels designed to maximize engagement.", icon: "📱" },
+    { title: "Clip Selection", description: "Sifting through hours of footage to find the best moments.", icon: "🎯" },
+    { title: "Content Strategy", description: "Retention mechanics, hook structures, and pacing for growth.", icon: "📈" },
+];
+
+const testimonials = [
+    {
+        id: 1,
+        author: "The Content Playbook Podcast",
+        videoUrl: `${MEDIA_BASE}/testimonials/TCP_Ep18_Solo_v0.2.mp4`,
+        youtubeUrl: "https://www.youtube.com/watch?v=5mRRDJSsMlE",
+        avatarUrl: `${MEDIA_BASE}/testimonials/tcp_avatar.jpg`,
+        quote: "The real game-changer has been Sarkate. I don't just see him as an editor, but as a visionary content partner who instinctively understands our goals.",
+    },
+    {
+        id: 2,
+        author: "The Content Playbook Podcast",
+        videoUrl: `${MEDIA_BASE}/testimonials/Value.mp4`,
+        youtubeUrl: "https://www.youtube.com/watch?v=wW6bi-Dx3iQ",
+        avatarUrl: `${MEDIA_BASE}/testimonials/tcp_avatar.jpg`,
+        quote: "Sarkate's value as our lead editor is in his ability to find the right clips and stitch them together perfectly. From music selection to optimizing for YouTube retention, he is vital.",
+    },
+];
 
 export default function BottomBento() {
     const testimonialsRef = useRef(null);
-    const skills = [
-        { title: "Precision Editing", description: "Knowing exactly where and how to cut to maintain seamless flow.", icon: "✂️" },
-        { title: "Color Grading", description: "Enhancing mood and visual appeal with professional grading.", icon: "🎨" },
-        { title: "Podcasts & Trailers", description: "Multi-cam podcasts and high-impact intro trailers.", icon: "🎙️" },
-        { title: "Short-Form Content", description: "High-retention Shorts and Reels designed to maximize engagement.", icon: "📱" },
-        { title: "Clip Selection", description: "Sifting through hours of footage to find the best moments.", icon: "🎯" },
-        { title: "Content Strategy", description: "Retention mechanics, hook structures, and pacing for growth.", icon: "📈" },
-    ];
-
-    const testimonials = [
-        {
-            id: 1,
-            author: "The Content Playbook Podcast",
-            role: "Podcast",
-            videoUrl: `${MEDIA_BASE}/testimonials/TCP_Ep18_Solo_v0.2.mp4`,
-            channelLink: "https://www.youtube.com/@TheContentPlaybookPod",
-            youtubeUrl: "https://www.youtube.com/watch?v=5mRRDJSsMlE",
-            avatarUrl: `${MEDIA_BASE}/testimonials/tcp_avatar.jpg`,
-            quote: "The real game-changer has been Sarkate. I don't just see him as an editor, but as a visionary content partner who instinctively understands our goals.",
-        },
-        {
-            id: 2,
-            author: "The Content Playbook Podcast",
-            role: "Podcast",
-            videoUrl: `${MEDIA_BASE}/testimonials/Value.mp4`,
-            channelLink: "https://www.youtube.com/@TheContentPlaybookPod",
-            youtubeUrl: "https://www.youtube.com/watch?v=wW6bi-Dx3iQ",
-            avatarUrl: `${MEDIA_BASE}/testimonials/tcp_avatar.jpg`,
-            quote: "Sarkate's value as our lead editor is in his ability to find the right clips and stitch them together perfectly. From music selection to optimizing for YouTube retention, he is vital.",
-        },
-    ];
 
     return (
         <section className="w-full px-4 md:px-8">
             <div className="w-full max-w-[1280px] mx-auto flex flex-col gap-16">
+
                 {/* Expertise */}
                 <div>
                     <div className="mb-6 flex items-baseline gap-4">
@@ -94,9 +92,7 @@ export default function BottomBento() {
                                         className="absolute inset-0 w-full h-full object-cover"
                                         controls
                                         preload="metadata"
-                                    >
-                                        Your browser does not support the video tag.
-                                    </video>
+                                    />
                                 </div>
                                 <div className="p-3 sm:p-5 flex flex-col flex-1">
                                     <h3 className="font-serif text-sm sm:text-base md:text-lg font-bold text-text-primary mb-2 flex-1" title={testimonial.quote}>
@@ -105,7 +101,7 @@ export default function BottomBento() {
                                     <div className="flex items-center gap-3 mt-2">
                                         <img
                                             src={testimonial.avatarUrl}
-                                            alt={testimonial.author + " avatar"}
+                                            alt={`${testimonial.author} avatar`}
                                             className="w-10 h-10 rounded-full object-cover border border-accent-primary"
                                         />
                                         <div className="flex flex-col gap-0.5">
@@ -127,6 +123,7 @@ export default function BottomBento() {
                         ))}
                     </div>
                 </div>
+
             </div>
         </section>
     );
